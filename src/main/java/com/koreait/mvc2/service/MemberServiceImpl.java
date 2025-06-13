@@ -78,7 +78,7 @@ public class MemberServiceImpl implements MemberService {
     public void delete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         MemberDTO sessiondto = (MemberDTO) req.getSession().getAttribute("user");
         if(sessiondto.getUserid()!=null){
-            dao.deleteMemver(sessoindto.getUserid());
+            dao.deleteMember(sessiondto.getUserid());
             req.getSession().invalidate();  //invalidate:삭제
         }
         resp.sendRedirect("login.member");
