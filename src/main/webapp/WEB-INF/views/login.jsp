@@ -12,7 +12,7 @@
 </head>
 <body>
 <h2>로그인</h2>
-<form method="post" action="loginForm.jsp">
+<form method="post" action="loginForm.member">
     <input type="hidden" name="action" value="login">
     <p>아이디 : <input type="text" name="userid"></p>
     <p>비밀번호 : <input type="password" name="userpw"></p>

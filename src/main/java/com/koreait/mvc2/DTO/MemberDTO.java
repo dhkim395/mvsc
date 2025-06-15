@@ -1,6 +1,9 @@
 package com.koreait.mvc2.DTO;
 
 public class MemberDTO {
+    // 1. DTO 필드는 DB 필드와 일치하도록 설정
+    // 2. 생성자 만들기
+    // 3. getter setter 만들기
     private int idx;
     private String userid;
     private String userpw;
@@ -17,18 +20,17 @@ public class MemberDTO {
     private String regdate;
     private int point;
 
-
     public MemberDTO() {
     }
 
-    public MemberDTO(String gender, int idx, String userid, String userpw, String name, String hp, String email, String ssn1, String ssn2, String zipcode, String address1, String address2, String address3, String regdate, int point) {
-        this.gender = gender;
+    public MemberDTO(int idx, String userid, String userpw, String name, String hp, String email, String gender, String ssn1, String ssn2, String zipcode, String address1, String address2, String address3, String regdate, int point) {
         this.idx = idx;
         this.userid = userid;
         this.userpw = userpw;
         this.name = name;
         this.hp = hp;
         this.email = email;
+        this.gender = gender;
         this.ssn1 = ssn1;
         this.ssn2 = ssn2;
         this.zipcode = zipcode;
@@ -37,14 +39,6 @@ public class MemberDTO {
         this.address3 = address3;
         this.regdate = regdate;
         this.point = point;
-    }
-
-    public String getAddress2() {
-        return address2;
-    }
-
-    public void setAddress2(String address2) {
-        this.address2 = address2;
     }
 
     public int getIdx() {
@@ -135,6 +129,14 @@ public class MemberDTO {
         this.address1 = address1;
     }
 
+    public String getAddress2() {
+        return address2;
+    }
+
+    public void setAddress2(String address2) {
+        this.address2 = address2;
+    }
+
     public String getAddress3() {
         return address3;
     }
@@ -159,6 +161,4 @@ public class MemberDTO {
         this.point = point;
     }
 
-    public void setUserid(int idx) {
-    }
-}
+}// CLASS

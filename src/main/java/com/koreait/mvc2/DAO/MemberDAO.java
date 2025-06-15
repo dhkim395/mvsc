@@ -6,16 +6,10 @@ import com.koreait.mvc2.utill.DBUtil;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 
 public class MemberDAO {
-
     public boolean insertMember(MemberDTO member) {
-        String sql = """
-                insert into member (userid, userpw, name, hp, email,
-                gender, ssn1, ssn2, zipcode, address1, address2, address3)
-                values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)     
-            """;
+        String sql = "insert into member (userid, userpw, name, hp, email, gender, ssn1, ssn2, zipcode, address1, address2, address3) values(?,?,?,?,?,?,?,?,?,?,?,?)";
         try (Connection conn = DBUtil.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, member.getUserid());
@@ -30,25 +24,26 @@ public class MemberDAO {
             pstmt.setString(10, member.getAddress1());
             pstmt.setString(11, member.getAddress2());
             pstmt.setString(12, member.getAddress3());
-            return pstmt.executeUpdate() == 1;
+            return pstmt.executeUpdate() == 1; // 정상 완료 결과가 1임
         } catch (Exception e) {
             e.printStackTrace();
             return false;
         }
-    }
+    } // insertMember()
 
     public MemberDTO login(String userid, String userpw) {
-        String sql = "select * from member where userid = ? and userpw = ?";
-
+        String sql = "select * from member where userid =? and userpw =?";
         try (Connection conn = DBUtil.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, userid);
             pstmt.setString(2, userpw);
             ResultSet rs = pstmt.executeQuery();
+            // if 데이터가 있다면,
             if (rs.next()) {
                 MemberDTO member = new MemberDTO();
                 member.setIdx(rs.getInt("idx"));
                 member.setUserid(rs.getString("userid"));
+                member.setUserpw(rs.getString("userpw"));
                 member.setName(rs.getString("name"));
                 member.setHp(rs.getString("hp"));
                 member.setEmail(rs.getString("email"));
@@ -62,6 +57,7 @@ public class MemberDAO {
                 member.setPoint(Integer.parseInt(rs.getString("point")));
                 return member;
             }
+
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -71,11 +67,11 @@ public class MemberDAO {
 
     public boolean updateMember(MemberDTO dto) {
         String sql = """
-                update member set name=?, hp=?, email=?, gender=?,
-                zipcode=?, address1=?, address2=?, address3=? where userid=?
+                update member set name=?, hp=?, email=?, gender=?, zipcode=?, address1=?, address2=?, address3=? where userid=?
                 """;
         try (Connection conn = DBUtil.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+             PreparedStatement pstmt = conn.prepareStatement(sql);
+        ) {
             pstmt.setString(1, dto.getName());
             pstmt.setString(2, dto.getHp());
             pstmt.setString(3, dto.getEmail());
@@ -86,23 +82,23 @@ public class MemberDAO {
             pstmt.setString(8, dto.getAddress3());
             pstmt.setString(9, dto.getUserid());
             return pstmt.executeUpdate() == 1;
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
-        }
-    }                           //유저 아이디를 받았는데 스트링 이기 때문에
-    public boolean deleteMember(String userid) {
-        String sql = """
-                delete from member where userid = ?
-                """ ;
-        try (Connection conn =DBUtil.getConnection();
-        PreparedStatement pstmt = conn.prepareStatement(sql)){  //넣어서 실행
-            pstmt.setString(1, userid);
-            return pstmt.executeUpdate() == 1;
-        }catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return false;
         }
     }
-}
 
+    public boolean deleteMember(String userid) {
+        String sql = """
+                delete from member where userid=?
+                """;
+        try(Connection conn = DBUtil.getConnection();
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+        ) {
+            pstmt.setString(1, userid);
+            return pstmt.executeUpdate() == 1;
+        }catch (Exception e) {e.printStackTrace();}
+        return false;
+    }
+
+} // class

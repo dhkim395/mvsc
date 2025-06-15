@@ -19,12 +19,12 @@ public class MemberController extends HttpServlet {
     }
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         doAction(req, resp);
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         doAction(req, resp);
     }
 
@@ -38,35 +38,45 @@ public class MemberController extends HttpServlet {
             case "/join.member":
                 req.getRequestDispatcher("/WEB-INF/views/join.jsp").forward(req, resp);
                 break;
+
             case "/joinForm.member":
                 service.join(req, resp);
                 break;
+
             case "/login.member":
                 req.getRequestDispatcher("/WEB-INF/views/login.jsp").forward(req, resp);
                 break;
+
             case "/loginForm.member":
                 service.login(req, resp);
                 break;
+
             case "/logout.member":
                 service.logout(req, resp);
                 break;
+
             case "/mypage.member":
-                req.getRequestDispatcher("/WEB-INF/views/member.jsp").forward(req, resp);
+                req.getRequestDispatcher("/WEB-INF/views/mypage.jsp").forward(req, resp);
                 break;
-            case "modifyForm.member":
+
+            case "/modifyForm.member":
                 if (req.getMethod().equals("GET")) {
-                    req.getRequestDispatcher("/WEB-INF/views/modify.jsp").forward(req, resp);
-                } else if (req.getMethod().equals("POST")) {
+                    req.getRequestDispatcher("/WEB-INF/views/edit.jsp").forward(req, resp);
+                } else if (req.getMethod().equalsIgnoreCase("POST")) {
                     service.modify(req, resp);
                 }
-                ;
                 break;
+
             case "/delete.member":
                 service.delete(req,resp);
-                    break;
+                break;
+
 
             default:
+                // 잘못된 페이지 에러를 보내는 구문
                 resp.sendError(HttpServletResponse.SC_NOT_FOUND);
         }
+
     }
-}
+
+} // class
